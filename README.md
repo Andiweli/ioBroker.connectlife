@@ -1,6 +1,6 @@
 # ConnectLife Cloud für ioBroker
 
-Experimenteller, inoffizieller ioBroker-Adapter für die ConnectLife-Cloud von unter anderem Hisense, Gorenje und ASKO.
+Experimenteller, inoffizieller ioBroker-Adapter für die ConnectLife-Cloud (getestet mit Hisense Klimageräten).
 
 ## Funktionen
 
@@ -24,13 +24,6 @@ GitHub-Adresse:
 https://github.com/Andiweli/ioBroker.connectlife
 ```
 
-Alternativ per Konsole:
-
-```bash
-iobroker url https://github.com/Andiweli/ioBroker.connectlife
-iobroker add connectlife
-```
-
 Danach die Instanz öffnen und die ConnectLife-E-Mail-Adresse sowie das Passwort eintragen.
 
 ## Schreiben auf Rohdatenpunkte
@@ -40,10 +33,6 @@ Unter `devices.<Gerät>.raw` legt der Adapter die von ConnectLife gelieferten Or
 Ist **Schreiben auf unbekannte Rohdatenpunkte erlauben** aktiviert, können solche Original-Eigenschaften direkt an die ConnectLife-Cloud gesendet werden. Das ist hauptsächlich zum Testen noch nicht komfortabel abgebildeter Funktionen gedacht. Nicht jeder Rohdatenpunkt ist tatsächlich beschreibbar; ungültige Werte können von der Cloud oder vom Gerät abgelehnt werden.
 
 Für den normalen Betrieb sollte diese Option ausgeschaltet bleiben.
-
-## Muss der Adapter kompiliert werden?
-
-Nein. Der Adapter besteht aus normalem JavaScript und läuft direkt unter Node.js. ioBroker installiert beim Einspielen automatisch die benötigten npm-Abhängigkeiten. Ein TypeScript-Compiler oder Build-Schritt ist nicht erforderlich.
 
 ## Erwartete Objektstruktur
 
@@ -59,12 +48,6 @@ connectlife.0
         ├── status
         ├── controls
         └── raw
-```
-
-## Test und Log
-
-```bash
-iobroker logs connectlife.0 --watch
 ```
 
 ## Wichtiger Hinweis
