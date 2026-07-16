@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "connectlife",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "title": "ConnectLife Cloud",
     "titleLang": {
       "en": "ConnectLife Cloud",
@@ -47,6 +47,10 @@
       }
     ],
     "news": {
+      "0.1.2": {
+        "en": "Shorter login fields, linked configuration footer and ConnectLife cloud device names.",
+        "de": "Kürzere Anmeldefelder, verlinkter Konfigurationsfooter und Gerätenamen aus der ConnectLife-Cloud."
+      },
       "0.1.1": {
         "en": "Unique random request nonces, automatic randStr retry, new icon, adapter title and configuration footer.",
         "de": "Eindeutige zufällige Anfrage-Nonces, automatische randStr-Wiederholung, neues Icon, neuer Adaptername und Footer in der Konfiguration."
