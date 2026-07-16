@@ -51,15 +51,32 @@ describe("ConnectLifeClient request metadata", () => {
         assert.ok(client.accessTokenHardValidUntil > Date.now());
     });
 
-    it("keeps using an access token that is still valid during login backoff", () => {
+    it("keeps using an access token that is still valid during login backoff", async () => {
         const client = new ConnectLifeClient({ login: "test", password: "test", log: silentLog });
         client.accessToken = "access";
         client.accessTokenHardValidUntil = Date.now() + 10 * 60 * 1000;
 
-        const result = client.handleRateLimit(new Error("Api rate limit exceeded"));
+        const result = await client.handleRateLimit(new Error("Api rate limit exceeded"), false);
 
         assert.equal(result, "access");
         assert.ok(client.loginBlockedUntil > Date.now());
         assert.ok(client.tokenValidUntil > Date.now());
+    });
+
+    it("waits once and retries instead of throwing countdown errors every poll", async () => {
+        const client = new ConnectLifeClient({ login: "test", password: "test", log: silentLog });
+        client.loginBackoffMs = 1234;
+
+        let waited = 0;
+        client.wait = async milliseconds => {
+            waited = milliseconds;
+        };
+        client.obtainToken = async force => (force ? "forced-retry" : "normal-retry");
+
+        const result = await client.handleRateLimit(new Error("Api rate limit exceeded"), false);
+
+        assert.equal(waited, 1234);
+        assert.equal(result, "normal-retry");
+        assert.equal(client.loginBlockedUntil, 0);
     });
 });
