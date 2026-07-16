@@ -1,6 +1,6 @@
 {
   "name": "iobroker.connectlife",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Unofficial ioBroker adapter for ConnectLife Cloud appliances",
   "author": "Andreas / OpenAI",
   "homepage": "https://github.com/Andiweli/ioBroker.connectlife#readme",
