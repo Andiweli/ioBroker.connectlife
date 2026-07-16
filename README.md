@@ -1,6 +1,4 @@
-<p align="center">
-  <img src="admin/connectlife.svg" width="160" alt="ConnectLife Cloud icon">
-</p>
+<img src="admin/connectlife.svg" width="160" alt="ConnectLife Cloud icon">
 
 # ConnectLife Cloud for ioBroker
 
