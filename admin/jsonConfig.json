@@ -1,0 +1,47 @@
+{
+  "type": "panel",
+  "items": {
+    "login": {
+      "type": "text",
+      "label": {"en": "ConnectLife login (email)", "de": "ConnectLife-Anmeldung (E-Mail)"},
+      "newLine": true,
+      "sm": 12,
+      "md": 8
+    },
+    "password": {
+      "type": "password",
+      "label": {"en": "ConnectLife password", "de": "ConnectLife-Passwort"},
+      "newLine": true,
+      "sm": 12,
+      "md": 8
+    },
+    "pollInterval": {
+      "type": "number",
+      "label": {"en": "Polling interval in seconds", "de": "Abfrageintervall in Sekunden"},
+      "min": 30,
+      "max": 3600,
+      "step": 10,
+      "newLine": true,
+      "sm": 12,
+      "md": 4
+    },
+    "createRawStates": {
+      "type": "checkbox",
+      "label": {"en": "Create raw property states", "de": "Rohdatenpunkte anlegen"},
+      "newLine": true
+    },
+    "allowRawWrites": {
+      "type": "checkbox",
+      "label": {"en": "Allow writes to raw properties", "de": "Schreiben auf Rohdatenpunkte erlauben"},
+      "newLine": true
+    },
+    "_notice": {
+      "type": "staticText",
+      "text": {
+        "en": "This adapter uses an unofficial, reverse-engineered cloud API. ConnectLife may change it without notice.",
+        "de": "Dieser Adapter verwendet eine inoffizielle, rekonstruierte Cloud-API. ConnectLife kann sie jederzeit ändern."
+      },
+      "newLine": true
+    }
+  }
+}
