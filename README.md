@@ -1,40 +1,42 @@
-# ConnectLife Cloud für ioBroker
+# ConnectLife Cloud for ioBroker
 
-Experimenteller, inoffizieller ioBroker-Adapter für die ConnectLife-Cloud (getestet mit Hisense Klimageräten).
+[Deutsche Dokumentation](README_DE.md)
 
-## Funktionen
+Experimental, unofficial ioBroker adapter for the ConnectLife Cloud. It has been tested with Hisense air conditioners. Manufacturer information is available on the [Hisense website](https://global.hisense.com/).
 
-- ConnectLife-Login über Gigya und OAuth
-- automatische Erkennung der im Konto vorhandenen Geräte
-- regelmäßiger Abruf von `statusList`
-- automatische Anlage von Rohdatenpunkten
-- Klimaanlagen-Steuerung für Ein/Aus, Solltemperatur, Betriebsart, Lüfterstufe, Silent, Turbo, Eco sowie horizontale und vertikale Luftführung
-- optionales Schreiben unbekannter Roh-Properties
-- Verbindungs- und Fehlerstatus unter `info`
-- automatische einmalige Wiederholung bei einem ConnectLife-Fehler `randStr check fail`
-- stabilere Verbindungsanzeige bei einzelnen vorübergehenden Cloud-Fehlern
+## Features
 
-## Installation über ioBroker
+- ConnectLife login via Gigya and OAuth
+- Automatic discovery of devices registered in the account
+- Periodic retrieval of `statusList`
+- Automatic creation of raw property states
+- Air-conditioner control for power, target temperature, operating mode, fan speed, silent, turbo, eco, horizontal swing and vertical swing
+- Optional writing of unknown raw properties
+- Connection and error states below `info`
+- Automatic one-time retry after a ConnectLife `randStr check fail` response
+- Stable connection indicator during isolated temporary cloud errors
 
-Im ioBroker-Admin den Expertenmodus aktivieren und **Adapter aus eigener URL installieren** wählen.
+## Installation through ioBroker
 
-GitHub-Adresse:
+Enable expert mode in the ioBroker Admin interface and select **Install adapter from custom URL**.
+
+GitHub URL:
 
 ```text
 https://github.com/Andiweli/ioBroker.connectlife
 ```
 
-Danach die Instanz öffnen und die ConnectLife-E-Mail-Adresse sowie das Passwort eintragen.
+Open the created instance and enter the ConnectLife email address and password.
 
-## Schreiben auf Rohdatenpunkte
+## Writing raw properties
 
-Unter `devices.<Gerät>.raw` legt der Adapter die von ConnectLife gelieferten Original-Eigenschaften ab.
+The adapter stores the original properties returned by ConnectLife below `devices.<device>.raw`.
 
-Ist **Schreiben auf unbekannte Rohdatenpunkte erlauben** aktiviert, können solche Original-Eigenschaften direkt an die ConnectLife-Cloud gesendet werden. Das ist hauptsächlich zum Testen noch nicht komfortabel abgebildeter Funktionen gedacht. Nicht jeder Rohdatenpunkt ist tatsächlich beschreibbar; ungültige Werte können von der Cloud oder vom Gerät abgelehnt werden.
+When **Allow writes to unknown raw properties** is enabled, these original properties can be sent directly to the ConnectLife Cloud. This is primarily intended for testing functions that do not yet have a dedicated control state. Not every raw property is writable, and invalid values may be rejected by the cloud or device.
 
-Für den normalen Betrieb sollte diese Option ausgeschaltet bleiben.
+Keep this option disabled for normal operation.
 
-## Erwartete Objektstruktur
+## Object structure
 
 ```text
 connectlife.0
@@ -50,18 +52,24 @@ connectlife.0
         └── raw
 ```
 
-## Wichtiger Hinweis
+## Important notice
 
-Die verwendete ConnectLife-Schnittstelle ist nicht offiziell dokumentiert. Sie wurde aus der ConnectLife-App rekonstruiert. Endpunkte, Schlüssel, Eigenschaften oder der Login können sich jederzeit ändern.
+The ConnectLife interface used by this adapter is unofficial and reverse-engineered. Endpoints, keys, properties or the login flow may change without notice.
 
-Dieser Adapter wurde KI-unterstützt entwickelt und ist erhältlich unter https://github.com/Andiweli/ioBroker.connectlife
+This adapter was developed with AI assistance and is available at https://github.com/Andiweli/ioBroker.connectlife
 
-Basiert auf Teilen von https://github.com/Bilan/connectlife-api-connector
+Based in part on https://github.com/Bilan/connectlife-api-connector
 
-## Noch nicht enthalten
+## Not yet included
 
-- Energieverbrauch
-- Push-Updates über WebSocket oder MQTT
-- gerätespezifische Bedienoberflächen für Waschmaschinen, Trockner, Geschirrspüler oder Kühlschränke
-- automatische Erkennung, welche gemeldeten Roh-Properties tatsächlich schreibbar sind
-- Veröffentlichung im offiziellen ioBroker-Adapter-Repository
+- Energy consumption
+- Push updates through WebSocket or MQTT
+- Device-specific user interfaces for washing machines, dryers, dishwashers or refrigerators
+- Automatic detection of which reported raw properties are writable
+- Publication in the official ioBroker adapter repository
+
+## License
+
+MIT License
+
+Copyright (c) 2026 Andreas
