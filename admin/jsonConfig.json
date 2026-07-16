@@ -1,12 +1,10 @@
 {
+  "i18n": true,
   "type": "panel",
   "items": {
     "login": {
       "type": "text",
-      "label": {
-        "en": "ConnectLife Cloud login (email)",
-        "de": "ConnectLife-Cloud-Anmeldung (E-Mail)"
-      },
+      "label": "loginLabel",
       "newLine": true,
       "sm": 12,
       "md": 5,
@@ -18,10 +16,7 @@
     },
     "password": {
       "type": "password",
-      "label": {
-        "en": "ConnectLife Cloud password",
-        "de": "ConnectLife-Cloud-Passwort"
-      },
+      "label": "passwordLabel",
       "newLine": true,
       "sm": 12,
       "md": 5,
@@ -33,10 +28,7 @@
     },
     "pollInterval": {
       "type": "number",
-      "label": {
-        "en": "Polling interval in seconds",
-        "de": "Abfrageintervall in Sekunden"
-      },
+      "label": "pollIntervalLabel",
       "min": 30,
       "max": 3600,
       "step": 10,
@@ -46,27 +38,18 @@
     },
     "createRawStates": {
       "type": "checkbox",
-      "label": {
-        "en": "Create raw property states",
-        "de": "Rohdatenpunkte anlegen"
-      },
+      "label": "createRawStatesLabel",
       "newLine": true
     },
     "allowRawWrites": {
       "type": "checkbox",
-      "label": {
-        "en": "Allow writes to unknown raw properties (advanced)",
-        "de": "Schreiben auf unbekannte Rohdatenpunkte erlauben (erweitert)"
-      },
+      "label": "allowRawWritesLabel",
       "newLine": true
     },
     "_footer": {
       "type": "staticText",
       "format": "html",
-      "text": {
-        "en": "When enabled, states below devices.&lt;device&gt;.raw can be written directly to the ConnectLife API. This is intended for testing functions that do not yet have a dedicated control state. Invalid values may be rejected by the device or cloud.<br>This adapter uses an unofficial, reverse-engineered cloud API. ConnectLife may change it without notice.<br>This adapter was developed with AI assistance and is available at <a href=\"https://github.com/Andiweli/ioBroker.connectlife\" target=\"_blank\" rel=\"noopener noreferrer\">https://github.com/Andiweli/ioBroker.connectlife</a><br>Based in part on <a href=\"https://github.com/Bilan/connectlife-api-connector\" target=\"_blank\" rel=\"noopener noreferrer\">https://github.com/Bilan/connectlife-api-connector</a>",
-        "de": "Wenn aktiviert, können Datenpunkte unter devices.&lt;Gerät&gt;.raw direkt an die ConnectLife-API geschrieben werden. Das ist zum Testen von Funktionen gedacht, für die noch kein eigener Steuerdatenpunkt existiert. Ungültige Werte können vom Gerät oder von der Cloud abgelehnt werden.<br>Dieser Adapter verwendet eine inoffizielle, rekonstruierte Cloud-API. ConnectLife kann sie jederzeit ändern.<br>Dieser Adapter wurde KI-unterstützt entwickelt und ist erhältlich unter <a href=\"https://github.com/Andiweli/ioBroker.connectlife\" target=\"_blank\" rel=\"noopener noreferrer\">https://github.com/Andiweli/ioBroker.connectlife</a><br>Basiert auf Teilen von <a href=\"https://github.com/Bilan/connectlife-api-connector\" target=\"_blank\" rel=\"noopener noreferrer\">https://github.com/Bilan/connectlife-api-connector</a>"
-      },
+      "text": "footerText",
       "newLine": true,
       "sm": 12
     }
