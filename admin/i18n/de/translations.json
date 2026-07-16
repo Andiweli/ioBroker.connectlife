@@ -1,0 +1,8 @@
+{
+  "loginLabel": "ConnectLife-Cloud-Anmeldung (E-Mail)",
+  "passwordLabel": "ConnectLife-Cloud-Passwort",
+  "pollIntervalLabel": "Abfrageintervall in Sekunden",
+  "createRawStatesLabel": "Rohdatenpunkte anlegen",
+  "allowRawWritesLabel": "Schreiben auf unbekannte Rohdatenpunkte erlauben (erweitert)",
+  "footerText": "Wenn aktiviert, können Datenpunkte unter devices.&lt;Gerät&gt;.raw direkt an die ConnectLife-API geschrieben werden.<br>Das ist zum Testen von Funktionen gedacht, für die noch kein eigener Steuerdatenpunkt existiert. Ungültige Werte können vom Gerät oder von der Cloud abgelehnt werden.<br>Dieser Adapter verwendet eine inoffizielle, rekonstruierte Cloud-API. ConnectLife kann sie jederzeit ändern."
+}
