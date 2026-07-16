@@ -15,18 +15,6 @@
         "pl": "Zmodernizowana struktura, standardowe testy i CI, chronione dane logowania oraz JSONConfig i18n.",
         "uk": "Модернізована структура, стандартні тести й CI, захищені облікові дані та JSONConfig i18n.",
         "zh-cn": "现代化项目结构、标准测试和 CI、受保护的凭据以及 JSONConfig 国际化。"
-      },
-      "0.1.2": {
-        "en": "Cloud device names and improved configuration layout.",
-        "de": "Cloud-Gerätenamen und verbessertes Konfigurationslayout."
-      },
-      "0.1.1": {
-        "en": "Unique random request nonces and automatic randStr retry.",
-        "de": "Eindeutige zufällige Anfrage-Nonces und automatische randStr-Wiederholung."
-      },
-      "0.1.0": {
-        "en": "Initial experimental release.",
-        "de": "Erste experimentelle Version."
       }
     },
     "titleLang": {
