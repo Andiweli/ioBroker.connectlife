@@ -1,0 +1,28 @@
+{
+  "name": "iobroker.connectlife",
+  "version": "0.1.0",
+  "description": "Unofficial ioBroker adapter for ConnectLife cloud appliances",
+  "author": "Andreas / OpenAI",
+  "homepage": "https://github.com/Andiweli/ioBroker.connectlife#readme",
+  "license": "MIT",
+  "main": "main.js",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node --check main.js && node --check lib/connectlife-client.js",
+    "start": "node main.js"
+  },
+  "dependencies": {
+    "@iobroker/adapter-core": "^3.2.3",
+    "axios": "^1.11.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Andiweli/ioBroker.connectlife.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Andiweli/ioBroker.connectlife/issues"
+  }
+}
