@@ -1,10 +1,15 @@
+<p align="center">
+  <img src="admin/connectlife.svg" width="160" alt="ConnectLife Cloud icon">
+</p>
+
 # ConnectLife Cloud for ioBroker
 
 ![Version](https://img.shields.io/github/package-json/v/Andiweli/ioBroker.connectlife?label=version)
 
 [Deutsche Dokumentation](README_DE.md)
 
-Experimental, unofficial ioBroker adapter for the ConnectLife Cloud. It has been tested with Hisense air conditioners. Manufacturer information is available on the [Hisense website](https://global.hisense.com/).
+> [!NOTE]
+> Experimental, unofficial ioBroker adapter for the ConnectLife Cloud. It has been tested with Hisense air conditioners. Manufacturer information is available on the [Hisense website](https://global.hisense.com/).
 
 ## Features
 
