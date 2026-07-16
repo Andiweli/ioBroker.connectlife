@@ -1,6 +1,6 @@
 {
   "name": "iobroker.connectlife",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Unofficial ioBroker adapter for ConnectLife Cloud appliances",
   "author": {
     "name": "Andreas",
@@ -42,13 +42,14 @@
     "@iobroker/eslint-config": "^2.2.0",
     "@iobroker/testing": "^5.2.2"
   },
-  "main": "main.js",
+  "main": "index.js",
   "files": [
     "admin/**/*.json",
     "admin/**/*.svg",
     "lib/",
     "io-package.json",
     "LICENSE",
+    "index.js",
     "main.js"
   ],
   "scripts": {
