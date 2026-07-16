@@ -68,9 +68,6 @@ Based in part on https://github.com/Bilan/connectlife-api-connector
 ## Not yet included
 
 - Energy consumption
-- Push updates through WebSocket or MQTT
-- Device-specific user interfaces for washing machines, dryers, dishwashers or refrigerators
-- Automatic detection of which reported raw properties are writable
 - Publication in the official ioBroker adapter repository
 
 ## License
