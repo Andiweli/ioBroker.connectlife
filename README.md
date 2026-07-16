@@ -21,6 +21,14 @@
 - Automatic one-time retry after a ConnectLife `randStr check fail` response
 - Stable connection indicator during isolated temporary cloud errors
 
+## Screenshots
+
+<div align="center">
+<img width="70%" height="70%" alt="settings" src="https://github.com/user-attachments/assets/caca779c-e807-4f31-adb0-7c1ea0ce0aa3" />
+
+<img width="70%" height="70%" alt="objects" src="https://github.com/user-attachments/assets/c161c60b-ec0d-4620-85db-8834ac2388bd" />
+</div>
+
 ## Installation through ioBroker
 
 Enable expert mode in the ioBroker Admin interface and select **Install adapter from custom URL**.
