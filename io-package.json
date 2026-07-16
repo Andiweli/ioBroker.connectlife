@@ -1,0 +1,57 @@
+{
+  "common": {
+    "name": "connectlife",
+    "version": "0.1.0",
+    "titleLang": {"en": "ConnectLife", "de": "ConnectLife"},
+    "desc": {"en": "Unofficial ConnectLife cloud adapter for ioBroker", "de": "Inoffizieller ConnectLife-Cloud-Adapter für ioBroker"},
+    "authors": ["Andreas / OpenAI"],
+    "keywords": ["connectlife", "hisense", "gorenje", "asko", "air conditioner", "climate"],
+    "license": "MIT",
+    "platform": "Javascript/Node.js",
+    "mode": "daemon",
+    "type": "climate-control",
+    "connectionType": "cloud",
+    "dataSource": "poll",
+    "main": "main.js",
+    "icon": "connectlife.svg",
+    "enabled": true,
+    "extIcon": "https://raw.githubusercontent.com/Andiweli/ioBroker.connectlife/main/admin/connectlife.svg",
+    "readme": "README.md",
+    "loglevel": "info",
+    "compact": true,
+    "materialize": true,
+    "adminUI": {"config": "json"},
+    "messagebox": true,
+    "supportCustoms": false,
+    "dependencies": [{"js-controller": ">=5.0.0"}]
+  },
+  "native": {
+    "login": "",
+    "password": "",
+    "pollInterval": 60,
+    "createRawStates": true,
+    "allowRawWrites": true
+  },
+  "encryptedNative": ["password"],
+  "objects": [],
+  "instanceObjects": [
+    {
+      "_id": "info.connection",
+      "type": "state",
+      "common": {"name": "Connection", "type": "boolean", "role": "indicator.connected", "read": true, "write": false, "def": false},
+      "native": {}
+    },
+    {
+      "_id": "info.lastUpdate",
+      "type": "state",
+      "common": {"name": "Last successful update", "type": "string", "role": "date", "read": true, "write": false, "def": ""},
+      "native": {}
+    },
+    {
+      "_id": "info.lastError",
+      "type": "state",
+      "common": {"name": "Last error", "type": "string", "role": "text", "read": true, "write": false, "def": ""},
+      "native": {}
+    }
+  ]
+}
