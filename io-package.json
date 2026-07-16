@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "connectlife",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "news": {
+      "0.2.2": {
+        "en": "Wait silently during active account login rate limits instead of polling and logging the same countdown every minute.",
+        "de": "Während eines aktiven Konto-Login-Ratenlimits wartet der Adapter still, statt jede Minute erneut zu pollen und denselben Countdown zu protokollieren.",
+        "ru": "Во время ограничения частоты входа адаптер ожидает молча вместо ежеминутных опросов и повторных сообщений.",
+        "pt": "Durante limites ativos de login, o adaptador aguarda silenciosamente em vez de consultar e repetir a mensagem a cada minuto.",
+        "nl": "Tijdens een actieve aanmeldlimiet wacht de adapter stil in plaats van elke minuut opnieuw te pollen en dezelfde melding te tonen.",
+        "fr": "Pendant une limitation active de connexion, l’adaptateur attend silencieusement au lieu d’interroger et répéter le message chaque minute.",
+        "it": "Durante un limite attivo di accesso, l’adattatore attende silenziosamente invece di interrogare e ripetere il messaggio ogni minuto.",
+        "es": "Durante un límite activo de inicio de sesión, el adaptador espera en silencio en lugar de consultar y repetir el mensaje cada minuto.",
+        "pl": "Podczas aktywnego limitu logowania adapter czeka bez kolejnych odpytań i powtarzania komunikatu co minutę.",
+        "uk": "Під час активного обмеження входу адаптер очікує без щохвилинних опитувань і повторних повідомлень.",
+        "zh-cn": "登录限流期间适配器会静默等待，不再每分钟轮询并重复记录倒计时。"
+      },
       "0.2.1": {
         "en": "Use OAuth refresh tokens and exponential backoff to reduce full account logins and handle temporary Gigya rate limits.",
         "de": "OAuth-Refresh-Tokens und exponentieller Backoff reduzieren vollständige Kontoanmeldungen und behandeln temporäre Gigya-Ratenlimits.",
