@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "connectlife",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "news": {
+      "0.2.1": {
+        "en": "Use OAuth refresh tokens and exponential backoff to reduce full account logins and handle temporary Gigya rate limits.",
+        "de": "OAuth-Refresh-Tokens und exponentieller Backoff reduzieren vollständige Kontoanmeldungen und behandeln temporäre Gigya-Ratenlimits.",
+        "ru": "OAuth-токены обновления и экспоненциальная задержка сокращают полные входы и обрабатывают временные ограничения Gigya.",
+        "pt": "Tokens de atualização OAuth e recuo exponencial reduzem logins completos e tratam limites temporários do Gigya.",
+        "nl": "OAuth-vernieuwingstokens en exponentiële wachttijd verminderen volledige aanmeldingen en verwerken tijdelijke Gigya-limieten.",
+        "fr": "Les jetons d’actualisation OAuth et le délai exponentiel réduisent les connexions complètes et gèrent les limites temporaires de Gigya.",
+        "it": "I token di aggiornamento OAuth e il backoff esponenziale riducono gli accessi completi e gestiscono i limiti temporanei di Gigya.",
+        "es": "Los tokens de actualización OAuth y la espera exponencial reducen los inicios completos y gestionan límites temporales de Gigya.",
+        "pl": "Tokeny odświeżania OAuth i wykładnicze opóźnienie ograniczają pełne logowania i obsługują tymczasowe limity Gigya.",
+        "uk": "OAuth-токени оновлення та експоненційна затримка скорочують повні входи й обробляють тимчасові обмеження Gigya.",
+        "zh-cn": "OAuth 刷新令牌和指数退避可减少完整登录并处理临时 Gigya 速率限制。"
+      },
       "0.2.0": {
         "en": "Modernized project structure, standard tests and CI, protected credentials, JSONConfig i18n and improved resource cleanup.",
         "de": "Modernisierte Projektstruktur, Standardtests und CI, geschützte Zugangsdaten, JSONConfig-i18n und verbesserte Ressourcenbereinigung.",
