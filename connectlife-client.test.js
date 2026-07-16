@@ -56,27 +56,42 @@ describe("ConnectLifeClient request metadata", () => {
         client.accessToken = "access";
         client.accessTokenHardValidUntil = Date.now() + 10 * 60 * 1000;
 
-        const result = await client.handleRateLimit(new Error("Api rate limit exceeded"), false);
+        const result = await client.handleRateLimit(new Error("Api rate limit exceeded"));
 
         assert.equal(result, "access");
         assert.ok(client.loginBlockedUntil > Date.now());
         assert.ok(client.tokenValidUntil > Date.now());
     });
 
-    it("waits once and retries instead of throwing countdown errors every poll", async () => {
+    it("returns retry metadata immediately instead of blocking adapter startup", async () => {
         const client = new ConnectLifeClient({ login: "test", password: "test", log: silentLog });
         client.loginBackoffMs = 1234;
 
-        let waited = 0;
-        client.wait = async milliseconds => {
-            waited = milliseconds;
-        };
-        client.obtainToken = async force => (force ? "forced-retry" : "normal-retry");
+        await assert.rejects(
+            () => client.handleRateLimit(new Error("Api rate limit exceeded")),
+            error => {
+                assert.equal(error.isRateLimit, true);
+                assert.equal(error.retryAfterMs, 1234);
+                assert.ok(error.retryAt > Date.now());
+                return true;
+            },
+        );
 
-        const result = await client.handleRateLimit(new Error("Api rate limit exceeded"), false);
+        assert.ok(client.loginBlockedUntil > Date.now());
+    });
 
-        assert.equal(waited, 1234);
-        assert.equal(result, "normal-retry");
-        assert.equal(client.loginBlockedUntil, 0);
+    it("does not contact the login endpoint again while the backoff is active", async () => {
+        const client = new ConnectLifeClient({ login: "test", password: "test", log: silentLog });
+        client.loginBlockedUntil = Date.now() + 5000;
+
+        await assert.rejects(
+            () => client.obtainToken(false),
+            error => {
+                assert.equal(error.isRateLimit, true);
+                assert.ok(error.retryAfterMs > 0);
+                assert.ok(error.retryAfterMs <= 5000);
+                return true;
+            },
+        );
     });
 });
