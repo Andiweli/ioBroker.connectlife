@@ -1,18 +1,62 @@
 {
   "common": {
     "name": "connectlife",
-    "version": "0.1.2",
-    "title": "ConnectLife Cloud",
+    "version": "0.2.0",
+    "news": {
+      "0.2.0": {
+        "en": "Modernized project structure, standard tests and CI, protected credentials, JSONConfig i18n and improved resource cleanup.",
+        "de": "Modernisierte Projektstruktur, Standardtests und CI, geschützte Zugangsdaten, JSONConfig-i18n und verbesserte Ressourcenbereinigung.",
+        "ru": "Модернизированная структура проекта, стандартные тесты и CI, защищённые учётные данные и JSONConfig i18n.",
+        "pt": "Estrutura modernizada, testes e CI padrão, credenciais protegidas e JSONConfig i18n.",
+        "nl": "Gemoderniseerde projectstructuur, standaardtests en CI, beschermde aanmeldgegevens en JSONConfig i18n.",
+        "fr": "Structure modernisée, tests et CI standard, identifiants protégés et JSONConfig i18n.",
+        "it": "Struttura modernizzata, test e CI standard, credenziali protette e JSONConfig i18n.",
+        "es": "Estructura modernizada, pruebas y CI estándar, credenciales protegidas y JSONConfig i18n.",
+        "pl": "Zmodernizowana struktura, standardowe testy i CI, chronione dane logowania oraz JSONConfig i18n.",
+        "uk": "Модернізована структура, стандартні тести й CI, захищені облікові дані та JSONConfig i18n.",
+        "zh-cn": "现代化项目结构、标准测试和 CI、受保护的凭据以及 JSONConfig 国际化。"
+      },
+      "0.1.2": {
+        "en": "Cloud device names and improved configuration layout.",
+        "de": "Cloud-Gerätenamen und verbessertes Konfigurationslayout."
+      },
+      "0.1.1": {
+        "en": "Unique random request nonces and automatic randStr retry.",
+        "de": "Eindeutige zufällige Anfrage-Nonces und automatische randStr-Wiederholung."
+      },
+      "0.1.0": {
+        "en": "Initial experimental release.",
+        "de": "Erste experimentelle Version."
+      }
+    },
     "titleLang": {
       "en": "ConnectLife Cloud",
-      "de": "ConnectLife Cloud"
+      "de": "ConnectLife Cloud",
+      "ru": "ConnectLife Cloud",
+      "pt": "ConnectLife Cloud",
+      "nl": "ConnectLife Cloud",
+      "fr": "ConnectLife Cloud",
+      "it": "ConnectLife Cloud",
+      "es": "ConnectLife Cloud",
+      "pl": "ConnectLife Cloud",
+      "uk": "ConnectLife Cloud",
+      "zh-cn": "ConnectLife Cloud"
     },
     "desc": {
       "en": "Unofficial ConnectLife Cloud adapter for ioBroker",
-      "de": "Inoffizieller ConnectLife-Cloud-Adapter für ioBroker"
+      "de": "Inoffizieller ConnectLife-Cloud-Adapter für ioBroker",
+      "ru": "Неофициальный адаптер ConnectLife Cloud для ioBroker",
+      "pt": "Adaptador não oficial ConnectLife Cloud para ioBroker",
+      "nl": "Onofficiële ConnectLife Cloud-adapter voor ioBroker",
+      "fr": "Adaptateur ConnectLife Cloud non officiel pour ioBroker",
+      "it": "Adattatore ConnectLife Cloud non ufficiale per ioBroker",
+      "es": "Adaptador no oficial ConnectLife Cloud para ioBroker",
+      "pl": "Nieoficjalny adapter ConnectLife Cloud dla ioBroker",
+      "uk": "Неофіційний адаптер ConnectLife Cloud для ioBroker",
+      "zh-cn": "适用于 ioBroker 的非官方 ConnectLife Cloud 适配器"
     },
     "authors": [
-      "Andreas / OpenAI"
+      "Andreas (Andiweli)"
     ],
     "keywords": [
       "connectlife",
@@ -22,20 +66,22 @@
       "air conditioner",
       "climate"
     ],
-    "license": "MIT",
+    "licenseInformation": {
+      "type": "free",
+      "license": "MIT"
+    },
     "platform": "Javascript/Node.js",
-    "mode": "daemon",
-    "type": "climate-control",
-    "connectionType": "cloud",
-    "dataSource": "poll",
-    "main": "bootstrap.js",
     "icon": "connectlife.svg",
     "enabled": true,
     "extIcon": "https://raw.githubusercontent.com/Andiweli/ioBroker.connectlife/main/admin/connectlife.svg",
-    "readme": "README.md",
+    "readme": "https://github.com/Andiweli/ioBroker.connectlife/blob/main/README.md",
     "loglevel": "info",
+    "tier": 3,
+    "mode": "daemon",
+    "type": "climate-control",
     "compact": true,
-    "materialize": true,
+    "connectionType": "cloud",
+    "dataSource": "poll",
     "adminUI": {
       "config": "json"
     },
@@ -43,23 +89,14 @@
     "supportCustoms": false,
     "dependencies": [
       {
-        "js-controller": ">=5.0.0"
+        "js-controller": ">=6.0.11"
       }
     ],
-    "news": {
-      "0.1.2": {
-        "en": "Shorter login fields, linked configuration footer and ConnectLife cloud device names.",
-        "de": "Kürzere Anmeldefelder, verlinkter Konfigurationsfooter und Gerätenamen aus der ConnectLife-Cloud."
-      },
-      "0.1.1": {
-        "en": "Unique random request nonces, automatic randStr retry, new icon, adapter title and configuration footer.",
-        "de": "Eindeutige zufällige Anfrage-Nonces, automatische randStr-Wiederholung, neues Icon, neuer Adaptername und Footer in der Konfiguration."
-      },
-      "0.1.0": {
-        "en": "Initial experimental release.",
-        "de": "Erste experimentelle Version."
+    "globalDependencies": [
+      {
+        "admin": ">=7.0.23"
       }
-    }
+    ]
   },
   "native": {
     "login": "",
@@ -68,11 +105,23 @@
     "createRawStates": true,
     "allowRawWrites": false
   },
+  "protectedNative": [
+    "login",
+    "password"
+  ],
   "encryptedNative": [
     "password"
   ],
   "objects": [],
   "instanceObjects": [
+    {
+      "_id": "info",
+      "type": "channel",
+      "common": {
+        "name": "Information"
+      },
+      "native": {}
+    },
     {
       "_id": "info.connection",
       "type": "state",
@@ -109,6 +158,14 @@
         "read": true,
         "write": false,
         "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "devices",
+      "type": "channel",
+      "common": {
+        "name": "Devices"
       },
       "native": {}
     }
