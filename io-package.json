@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "connectlife",
-    "version": "0.2.2",
+    "version": "0.2.3",
     "news": {
+      "0.2.3": {
+        "en": "Schedule login retries without blocking adapter startup and expose the next retry time in info.nextRetry.",
+        "de": "Login-Wiederholungen blockieren den Adapterstart nicht mehr; der nächste Versuch steht unter info.nextRetry.",
+        "ru": "Повторные входы больше не блокируют запуск адаптера; время следующей попытки доступно в info.nextRetry.",
+        "pt": "As novas tentativas de login não bloqueiam mais o arranque; a próxima tentativa aparece em info.nextRetry.",
+        "nl": "Nieuwe aanmeldpogingen blokkeren het starten niet meer; het volgende tijdstip staat in info.nextRetry.",
+        "fr": "Les nouvelles tentatives de connexion ne bloquent plus le démarrage; la prochaine est visible dans info.nextRetry.",
+        "it": "I nuovi tentativi di accesso non bloccano più l’avvio; il prossimo è visibile in info.nextRetry.",
+        "es": "Los reintentos de inicio de sesión ya no bloquean el arranque; el próximo aparece en info.nextRetry.",
+        "pl": "Ponowne logowania nie blokują już uruchamiania; następna próba jest widoczna w info.nextRetry.",
+        "uk": "Повторні входи більше не блокують запуск; час наступної спроби доступний в info.nextRetry.",
+        "zh-cn": "登录重试不再阻塞适配器启动，下一次尝试时间显示在 info.nextRetry。"
+      },
       "0.2.2": {
         "en": "Wait silently during active account login rate limits instead of polling and logging the same countdown every minute.",
         "de": "Während eines aktiven Konto-Login-Ratenlimits wartet der Adapter still, statt jede Minute erneut zu pollen und denselben Countdown zu protokollieren.",
@@ -169,6 +182,19 @@
         "name": "Last error",
         "type": "string",
         "role": "text",
+        "read": true,
+        "write": false,
+        "def": ""
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.nextRetry",
+      "type": "state",
+      "common": {
+        "name": "Next login retry",
+        "type": "string",
+        "role": "date",
         "read": true,
         "write": false,
         "def": ""
