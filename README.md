@@ -8,6 +8,7 @@
 
 > [!NOTE]
 > Experimental, unofficial ioBroker adapter for the ConnectLife Cloud. It has been tested with Hisense air conditioners. Manufacturer information is available on the [Hisense website](https://global.hisense.com/).
+> Accounts created exclusively through Google, Apple or Microsoft sign-in are not supported. The adapter requires a ConnectLife email address and password.
 
 ## Features
 
