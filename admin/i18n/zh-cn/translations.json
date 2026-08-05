@@ -1,8 +1,8 @@
 {
-  "loginLabel": "ConnectLife Cloud login (email)",
-  "passwordLabel": "ConnectLife Cloud password",
-  "pollIntervalLabel": "Polling interval in seconds",
-  "createRawStatesLabel": "Create raw property states",
-  "allowRawWritesLabel": "Allow writes to unknown raw properties (advanced)",
-  "footerText": "When enabled, states below devices.&lt;device&gt;.raw can be written directly to the ConnectLife API.<br>This is intended for testing functions that do not yet have a dedicated control state. Invalid values may be rejected by the device or cloud.<br>This adapter uses an unofficial, reverse-engineered cloud API. ConnectLife may change it without notice."
+  "loginLabel": "ConnectLife Cloud 登录（电子邮件）",
+  "passwordLabel": "ConnectLife Cloud 密码",
+  "pollIntervalLabel": "轮询间隔（秒）",
+  "createRawStatesLabel": "创建原始属性状态",
+  "allowRawWritesLabel": "允许写入未知原始属性（高级）",
+  "footerText": "启用后，可以将 devices.&lt;设备&gt;.raw 下的状态直接写入 ConnectLife API。<br>此选项用于测试尚未提供专用控制状态的功能。设备或云端可能会拒绝无效值。<br>此适配器使用通过逆向工程获得的非官方云 API。ConnectLife 可能会随时更改该接口，恕不另行通知。"
 }
