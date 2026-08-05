@@ -10,6 +10,13 @@
 > Experimental, unofficial ioBroker adapter for the ConnectLife Cloud. It has been tested with Hisense air conditioners. Manufacturer information is available on the [Hisense website](https://global.hisense.com/).
 > Accounts created exclusively through Google, Apple or Microsoft sign-in are not currently supported. The adapter requires a ConnectLife email address and password.
 
+## Requirements
+
+- Node.js 22 or 24
+- js-controller 6.0.11 or newer
+- Admin 7.6.20 or newer
+- A ConnectLife account with an email address and ConnectLife password
+
 ## Features
 
 - ConnectLife login via Gigya and OAuth
@@ -43,6 +50,12 @@ https://github.com/Andiweli/ioBroker.connectlife
 ```
 
 Open the created instance and enter the ConnectLife email address and password.
+
+## Login rate limits
+
+ConnectLife may temporarily reject full account logins when too many login attempts occur. During this period the instance remains yellow, `info.connection` is `false`, and the adapter writes the reason and scheduled retry time to `info.lastError` and `info.nextRetry`.
+
+Leave the adapter running so its exponential backoff can control the retries. Restarting creates a new client session and forces another full login attempt; this should normally be avoided while the server-side limit is active. After a successful login, `info.connection` becomes `true` and both retry states are cleared.
 
 ## Writing raw properties
 
@@ -83,6 +96,13 @@ Based in part on https://github.com/Bilan/connectlife-api-connector
 - Publication in the official ioBroker adapter repository
 
 ## Changelog
+
+### 0.3.1 (2026-08-05)
+
+- Fixed all reported ESLint/Prettier formatting errors so package and integration tests can run.
+- Aligned check and deploy jobs with Node.js 24 while retaining Node.js 22 runtime support and tests.
+- Completed required repository metadata in `io-package.json`.
+- Documented runtime requirements and ConnectLife login-rate-limit behavior.
 
 ### 0.3.0 (2026-08-05)
 

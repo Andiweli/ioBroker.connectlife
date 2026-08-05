@@ -106,8 +106,7 @@ class ConnectLifeAdapter extends utils.Adapter {
 
             if (this.hadSuccessfulConnection && this.consecutiveRefreshErrors < 3) {
                 this.log.warn(
-                    `Temporary ConnectLife Cloud polling error ` +
-                        `(${this.consecutiveRefreshErrors}/3): ${message}`,
+                    `Temporary ConnectLife Cloud polling error ` + `(${this.consecutiveRefreshErrors}/3): ${message}`,
                 );
             } else {
                 this.log.error(message);
@@ -120,10 +119,7 @@ class ConnectLifeAdapter extends utils.Adapter {
 
     isRateLimitError(error) {
         return Boolean(
-            error &&
-                typeof error === "object" &&
-                error.isRateLimit === true &&
-                Number(error.retryAfterMs) > 0,
+            error && typeof error === "object" && error.isRateLimit === true && Number(error.retryAfterMs) > 0,
         );
     }
 
@@ -180,13 +176,7 @@ class ConnectLifeAdapter extends utils.Adapter {
         await this.ensureChannel(`devices.${objectId}.controls`, "Controls");
         await this.ensureChannel(`devices.${objectId}.raw`, "Raw properties");
 
-        await this.setReadOnlyState(
-            `devices.${objectId}.info.puid`,
-            puid,
-            "Device ID",
-            "string",
-            "info.serial",
-        );
+        await this.setReadOnlyState(`devices.${objectId}.info.puid`, puid, "Device ID", "string", "info.serial");
         await this.setReadOnlyState(
             `devices.${objectId}.info.online`,
             Number(device.offlineState) !== 0,
@@ -201,13 +191,7 @@ class ConnectLifeAdapter extends utils.Adapter {
             "string",
             "info.name",
         );
-        await this.setReadOnlyState(
-            `devices.${objectId}.info.roomName`,
-            roomName,
-            "Cloud room name",
-            "string",
-            "text",
-        );
+        await this.setReadOnlyState(`devices.${objectId}.info.roomName`, roomName, "Cloud room name", "string", "text");
         await this.setReadOnlyState(
             `devices.${objectId}.info.deviceTypeName`,
             deviceTypeName,
@@ -530,12 +514,7 @@ class ConnectLifeAdapter extends utils.Adapter {
     }
 
     getDeviceDisplayName(device, puid) {
-        const nickname = this.firstNonEmpty(
-            device.deviceNickName,
-            device.deviceName,
-            device.nickName,
-            device.name,
-        );
+        const nickname = this.firstNonEmpty(device.deviceNickName, device.deviceName, device.nickName, device.name);
         if (nickname) {
             return nickname;
         }

@@ -8,6 +8,13 @@
 > Experimenteller, inoffizieller ioBroker-Adapter für die ConnectLife-Cloud. Getestet wurde er mit Hisense-Klimageräten.
 > Konten, die ausschließlich über Google, Apple oder Microsoft angelegt wurden, werden derzeit nicht unterstützt. Der Adapter benötigt eine ConnectLife-E-Mail-Adresse und ein ConnectLife-Passwort.
 
+## Voraussetzungen
+
+- Node.js 22 oder 24
+- js-controller 6.0.11 oder neuer
+- Admin 7.6.20 oder neuer
+- ein ConnectLife-Konto mit E-Mail-Adresse und ConnectLife-Passwort
+
 ## Funktionen
 
 - ConnectLife-Login über Gigya und OAuth
@@ -33,6 +40,12 @@ https://github.com/Andiweli/ioBroker.connectlife
 ```
 
 Danach die Instanz öffnen und die ConnectLife-E-Mail-Adresse sowie das Passwort eintragen.
+
+## Login-Ratenlimits
+
+ConnectLife kann vollständige Kontoanmeldungen vorübergehend ablehnen, wenn in kurzer Zeit zu viele Loginversuche stattfinden. Während dieser Zeit bleibt die Instanz gelb, `info.connection` steht auf `false`, und der Adapter schreibt den Grund sowie die Uhrzeit des nächsten Versuchs nach `info.lastError` und `info.nextRetry`.
+
+Den Adapter in diesem Zustand weiterlaufen lassen, damit der exponentielle Backoff die Wiederholungen kontrolliert. Ein Neustart erzeugt eine neue Client-Sitzung und erzwingt einen weiteren vollständigen Loginversuch; während eines aktiven serverseitigen Limits sollte das normalerweise vermieden werden. Nach einem erfolgreichen Login wird `info.connection` auf `true` gesetzt und beide Retry-Datenpunkte werden geleert.
 
 ## Schreiben auf Rohdatenpunkte
 
@@ -73,6 +86,13 @@ Basiert auf Teilen von https://github.com/Bilan/connectlife-api-connector
 - Veröffentlichung im offiziellen ioBroker-Adapter-Repository
 
 ## Changelog
+
+### 0.3.1 (2026-08-05)
+
+- Alle gemeldeten ESLint-/Prettier-Formatierungsfehler behoben, damit Paket- und Integrationstests ausgeführt werden können.
+- Prüf- und Deploy-Jobs auf Node.js 24 ausgerichtet; Node.js 22 bleibt als Laufzeit und Testversion unterstützt.
+- Erforderliche Repository-Metadaten in `io-package.json` vervollständigt.
+- Laufzeitvoraussetzungen und das Verhalten bei ConnectLife-Login-Ratenlimits dokumentiert.
 
 ### 0.3.0 (2026-08-05)
 
