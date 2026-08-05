@@ -8,9 +8,18 @@ const silentLog = {
     error() {},
 };
 
+function createClient(options = {}) {
+    return new ConnectLifeClient({
+        login: "test",
+        password: "test",
+        log: silentLog,
+        ...options,
+    });
+}
+
 describe("ConnectLifeClient request metadata", () => {
     it("creates a unique 32-character randStr for every request", () => {
-        const client = new ConnectLifeClient({ login: "test", password: "test", log: silentLog });
+        const client = createClient();
         const first = client.getCommonRequestData();
         const second = client.getCommonRequestData();
 
@@ -21,7 +30,7 @@ describe("ConnectLifeClient request metadata", () => {
     });
 
     it("recognizes Gigya rate-limit responses", () => {
-        const client = new ConnectLifeClient({ login: "test", password: "test", log: silentLog });
+        const client = createClient();
 
         assert.equal(client.isRateLimitError(new Error("Api rate limit exceeded")), true);
         assert.equal(client.isRateLimitError(new Error("Gigya error 403048")), true);
@@ -29,7 +38,7 @@ describe("ConnectLifeClient request metadata", () => {
     });
 
     it("captures OAuth refresh-token metadata", () => {
-        const client = new ConnectLifeClient({ login: "test", password: "test", log: silentLog });
+        const client = createClient();
         const refreshExpiry = Date.now() + 24 * 60 * 60 * 1000;
 
         client.oauthTokenUrl = "https://example.invalid/oauth/token";
@@ -52,7 +61,7 @@ describe("ConnectLifeClient request metadata", () => {
     });
 
     it("keeps using an access token that is still valid during login backoff", async () => {
-        const client = new ConnectLifeClient({ login: "test", password: "test", log: silentLog });
+        const client = createClient();
         client.accessToken = "access";
         client.accessTokenHardValidUntil = Date.now() + 10 * 60 * 1000;
 
@@ -64,7 +73,7 @@ describe("ConnectLifeClient request metadata", () => {
     });
 
     it("returns retry metadata immediately instead of blocking adapter startup", async () => {
-        const client = new ConnectLifeClient({ login: "test", password: "test", log: silentLog });
+        const client = createClient();
         client.loginBackoffMs = 1234;
 
         await assert.rejects(
@@ -81,7 +90,7 @@ describe("ConnectLifeClient request metadata", () => {
     });
 
     it("does not contact the login endpoint again while the backoff is active", async () => {
-        const client = new ConnectLifeClient({ login: "test", password: "test", log: silentLog });
+        const client = createClient();
         client.loginBlockedUntil = Date.now() + 5000;
 
         await assert.rejects(
@@ -93,5 +102,18 @@ describe("ConnectLifeClient request metadata", () => {
                 return true;
             },
         );
+    });
+
+    it("uses the adapter-provided timer for short retry delays", async () => {
+        let scheduledDelay = 0;
+        const client = createClient({
+            scheduleTimeout(callback, milliseconds) {
+                scheduledDelay = milliseconds;
+                callback();
+            },
+        });
+
+        await client.wait(100);
+        assert.equal(scheduledDelay, 100);
     });
 });
