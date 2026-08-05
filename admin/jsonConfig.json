@@ -6,6 +6,7 @@
       "type": "text",
       "label": "loginLabel",
       "newLine": true,
+      "xs": 12,
       "sm": 12,
       "md": 5,
       "lg": 4,
@@ -18,6 +19,7 @@
       "type": "password",
       "label": "passwordLabel",
       "newLine": true,
+      "xs": 12,
       "sm": 12,
       "md": 5,
       "lg": 4,
@@ -33,25 +35,42 @@
       "max": 3600,
       "step": 10,
       "newLine": true,
+      "xs": 12,
       "sm": 12,
-      "md": 4
+      "md": 4,
+      "lg": 3,
+      "xl": 2
     },
     "createRawStates": {
       "type": "checkbox",
       "label": "createRawStatesLabel",
-      "newLine": true
+      "newLine": true,
+      "xs": 12,
+      "sm": 12,
+      "md": 6,
+      "lg": 4,
+      "xl": 4
     },
     "allowRawWrites": {
       "type": "checkbox",
       "label": "allowRawWritesLabel",
-      "newLine": true
+      "newLine": true,
+      "xs": 12,
+      "sm": 12,
+      "md": 6,
+      "lg": 4,
+      "xl": 4
     },
     "_footer": {
       "type": "staticText",
       "format": "html",
       "text": "footerText",
       "newLine": true,
-      "sm": 12
+      "xs": 12,
+      "sm": 12,
+      "md": 12,
+      "lg": 12,
+      "xl": 12
     }
   }
 }
