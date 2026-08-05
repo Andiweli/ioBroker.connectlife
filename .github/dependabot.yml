@@ -3,22 +3,28 @@ updates:
   - package-ecosystem: npm
     directory: "/"
     schedule:
-      interval: monthly
-      day: 15
-      time: "00:05"
+      interval: cron
+      cronjob: "17 3 8 * *"
       timezone: Europe/Vienna
-    open-pull-requests-limit: 5
+    cooldown:
+      default-days: 7
+    open-pull-requests-limit: 15
     assignees:
       - Andiweli
     versioning-strategy: increase
+    ignore:
+      - dependency-name: "@types/node"
+        update-types:
+          - "version-update:semver-major"
 
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
-      interval: monthly
-      day: 15
-      time: "00:05"
+      interval: cron
+      cronjob: "41 3 12 * *"
       timezone: Europe/Vienna
-    open-pull-requests-limit: 5
+    cooldown:
+      default-days: 7
+    open-pull-requests-limit: 15
     assignees:
       - Andiweli
