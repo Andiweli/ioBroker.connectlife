@@ -84,3 +84,5 @@ Based in part on https://github.com/Bilan/connectlife-api-connector
 MIT License
 
 Copyright (c) 2026 Andreas Stürmer
+
+[Older changelogs can be found there](CHANGELOG_OLD.md)
