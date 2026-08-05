@@ -1,12 +1,18 @@
+<img src="admin/connectlife.svg" width="160" alt="ConnectLife-Cloud-Icon">
+
 # ConnectLife Cloud für ioBroker
 
 [English documentation](README.md)
 
-Experimenteller, inoffizieller ioBroker-Adapter für die ConnectLife-Cloud (getestet mit Hisense Klimageräten).
+> [!NOTE]
+> Experimenteller, inoffizieller ioBroker-Adapter für die ConnectLife-Cloud. Getestet wurde er mit Hisense-Klimageräten.
+> Konten, die ausschließlich über Google, Apple oder Microsoft angelegt wurden, werden derzeit nicht unterstützt. Der Adapter benötigt eine ConnectLife-E-Mail-Adresse und ein ConnectLife-Passwort.
 
 ## Funktionen
 
 - ConnectLife-Login über Gigya und OAuth
+- OAuth-Refresh-Token zur Reduktion vollständiger Kontoanmeldungen
+- Behandlung von Login-Ratenlimits mit exponentiellem Backoff und sichtbarer Uhrzeit des nächsten Versuchs
 - automatische Erkennung der im Konto vorhandenen Geräte
 - regelmäßiger Abruf von `statusList`
 - automatische Anlage von Rohdatenpunkten
@@ -43,7 +49,8 @@ connectlife.0
 ├── info
 │   ├── connection
 │   ├── lastUpdate
-│   └── lastError
+│   ├── lastError
+│   └── nextRetry
 └── devices
     └── DEVICE
         ├── info
@@ -63,13 +70,34 @@ Basiert auf Teilen von https://github.com/Bilan/connectlife-api-connector
 ## Noch nicht enthalten
 
 - Energieverbrauch
-- Push-Updates über WebSocket oder MQTT
-- gerätespezifische Bedienoberflächen für Waschmaschinen, Trockner, Geschirrspüler oder Kühlschränke
-- automatische Erkennung, welche gemeldeten Roh-Properties tatsächlich schreibbar sind
 - Veröffentlichung im offiziellen ioBroker-Adapter-Repository
+
+## Changelog
+
+### 0.3.0 (2026-08-05)
+
+- Mindestversion auf Node.js 22 angehoben und ioBroker-/Release-Abhängigkeiten aktualisiert.
+- CI in aufeinanderfolgende Prüf-, Adaptertest- und tagbasierte Release-Jobs überführt.
+- Ratenlimit-Planung direkt in den Adapter integriert und den temporären Wrapper entfernt.
+- Normale Node.js-Timer durch vom Adapter verwaltete Timer ersetzt.
+- Responsives JSONConfig und vollständige Admin-Übersetzungen ergänzt.
+- Wartungsdateien und Einstellungen für den Repository-Checker ergänzt.
+
+### 0.2.3 (2026-08-04)
+
+- Ratenlimit-Wiederholungen ohne blockierenden Adapterstart geplant.
+- `info.nextRetry` ergänzt.
+
+### 0.2.1 (2026-08-04)
+
+- OAuth-Refresh-Token und exponentiellen Login-Backoff ergänzt.
+
+### 0.2.0 (2026-08-04)
+
+- Adapterstruktur, geschützte Zugangsdaten, JSONConfig-i18n und Standardtests modernisiert.
 
 ## Lizenz
 
 MIT-Lizenz
 
-Copyright (c) 2026 Andreas
+Copyright (c) 2026 Andreas Stürmer
