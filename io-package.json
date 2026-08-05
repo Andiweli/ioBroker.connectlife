@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "connectlife",
-    "version": "0.2.3",
+    "version": "0.3.0",
     "news": {
+      "0.3.0": {
+        "en": "Address repository-checker findings: Node.js 22, current dependencies, standard CI/release jobs, responsive JSONConfig, translated admin texts and adapter-managed timers.",
+        "de": "Repository-Checker-Hinweise behoben: Node.js 22, aktuelle Abhängigkeiten, standardisierte CI-/Release-Jobs, responsives JSONConfig, übersetzte Admin-Texte und Adapter-Timer.",
+        "ru": "Исправлены замечания проверки репозитория: Node.js 22, актуальные зависимости, стандартные CI и релизы, адаптивный JSONConfig, переводы и таймеры адаптера.",
+        "pt": "Corrigidas as verificações do repositório: Node.js 22, dependências atuais, CI e lançamentos padrão, JSONConfig responsivo, traduções e temporizadores do adaptador.",
+        "nl": "Repositorycontroles opgelost: Node.js 22, actuele afhankelijkheden, standaard CI en releases, responsieve JSONConfig, vertalingen en adaptertimers.",
+        "fr": "Corrections du contrôle du dépôt : Node.js 22, dépendances à jour, CI et publication standard, JSONConfig adaptatif, traductions et minuteries de l’adaptateur.",
+        "it": "Risolti i controlli del repository: Node.js 22, dipendenze aggiornate, CI e rilascio standard, JSONConfig reattivo, traduzioni e timer dell’adattatore.",
+        "es": "Corregidas las comprobaciones del repositorio: Node.js 22, dependencias actuales, CI y publicación estándar, JSONConfig adaptable, traducciones y temporizadores del adaptador.",
+        "pl": "Usunięto uwagi kontroli repozytorium: Node.js 22, aktualne zależności, standardowe CI i wydania, responsywny JSONConfig, tłumaczenia i timery adaptera.",
+        "uk": "Виправлено зауваження перевірки репозиторію: Node.js 22, актуальні залежності, стандартні CI та релізи, адаптивний JSONConfig, переклади й таймери адаптера.",
+        "zh-cn": "修复仓库检查问题：Node.js 22、最新依赖、标准 CI 与发布任务、响应式 JSONConfig、完整翻译和适配器计时器。"
+      },
       "0.2.3": {
         "en": "Schedule login retries without blocking adapter startup and expose the next retry time in info.nextRetry.",
         "de": "Login-Wiederholungen blockieren den Adapterstart nicht mehr; der nächste Versuch steht unter info.nextRetry.",
@@ -83,7 +96,7 @@
       "zh-cn": "适用于 ioBroker 的非官方 ConnectLife Cloud 适配器"
     },
     "authors": [
-      "Andreas (Andiweli)"
+      "Andreas Stürmer (Andiweli)"
     ],
     "keywords": [
       "connectlife",
@@ -121,7 +134,7 @@
     ],
     "globalDependencies": [
       {
-        "admin": ">=7.0.23"
+        "admin": ">=7.6.20"
       }
     ]
   },
