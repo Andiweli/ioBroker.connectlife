@@ -84,3 +84,9 @@ Based in part on https://github.com/Bilan/connectlife-api-connector
 MIT License
 
 Copyright (c) 2026 Andreas Stürmer
+
+## Changelog
+
+### **WORK IN PROGRESS**
+- (ioBroker-Bot) Adapter requires admin >= 7.8.23 now.
+
