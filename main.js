@@ -192,11 +192,7 @@ class ConnectLifeAdapter extends utils.Adapter {
             "info.name",
         );
         await this.setReadOnlyState(
-            `devices.${objectId}.info.roomName`,
-            roomName,
-            "Cloud room name",
-            "string",
-            "text",
+            `devices.${objectId}.info.roomName`, roomName, "Cloud room name", "string", "text",
         );
         await this.setReadOnlyState(
             `devices.${objectId}.info.deviceTypeName`,
@@ -520,12 +516,7 @@ class ConnectLifeAdapter extends utils.Adapter {
     }
 
     getDeviceDisplayName(device, puid) {
-        const nickname = this.firstNonEmpty(
-            device.deviceNickName,
-            device.deviceName,
-            device.nickName,
-            device.name,
-        );
+        const nickname = this.firstNonEmpty(device.deviceNickName, device.deviceName, device.nickName, device.name);
         if (nickname) {
             return nickname;
         }
