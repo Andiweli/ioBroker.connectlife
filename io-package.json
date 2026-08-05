@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "connectlife",
-    "version": "0.3.0",
+    "version": "0.3.1",
     "news": {
+      "0.3.1": {
+        "en": "Fixed CI formatting, aligned check and deploy jobs with Node.js 24, and completed repository metadata while retaining Node.js 22 runtime support.",
+        "de": "CI-Formatierung korrigiert, Prüf- und Deploy-Jobs auf Node.js 24 ausgerichtet und Repository-Metadaten vervollständigt; Node.js 22 bleibt unterstützt.",
+        "ru": "Исправлено форматирование CI, задания проверки и публикации переведены на Node.js 24, метаданные репозитория дополнены; поддержка Node.js 22 сохранена.",
+        "pt": "Corrigida a formatação da CI, tarefas de verificação e publicação alinhadas com Node.js 24 e metadados do repositório concluídos; Node.js 22 continua suportado.",
+        "nl": "CI-opmaak hersteld, controle- en publicatietaken op Node.js 24 afgestemd en repositorymetadata voltooid; Node.js 22 blijft ondersteund.",
+        "fr": "Formatage CI corrigé, tâches de contrôle et de publication alignées sur Node.js 24 et métadonnées du dépôt complétées ; Node.js 22 reste pris en charge.",
+        "it": "Corretta la formattazione CI, allineati i job di controllo e pubblicazione a Node.js 24 e completati i metadati del repository; Node.js 22 resta supportato.",
+        "es": "Corregido el formato de CI, alineadas las tareas de comprobación y publicación con Node.js 24 y completados los metadatos del repositorio; Node.js 22 sigue siendo compatible.",
+        "pl": "Poprawiono formatowanie CI, zadania kontroli i publikacji dostosowano do Node.js 24 oraz uzupełniono metadane repozytorium; Node.js 22 pozostaje obsługiwany.",
+        "uk": "Виправлено форматування CI, завдання перевірки й публікації переведено на Node.js 24 та доповнено метадані репозиторію; підтримку Node.js 22 збережено.",
+        "zh-cn": "修复 CI 格式，将检查和发布任务对齐到 Node.js 24，并补全仓库元数据；仍支持 Node.js 22。"
+      },
       "0.3.0": {
         "en": "Address repository-checker findings: Node.js 22, current dependencies, standard CI/release jobs, responsive JSONConfig, translated admin texts and adapter-managed timers.",
         "de": "Repository-Checker-Hinweise behoben: Node.js 22, aktuelle Abhängigkeiten, standardisierte CI-/Release-Jobs, responsives JSONConfig, übersetzte Admin-Texte und Adapter-Timer.",
@@ -69,6 +82,7 @@
         "zh-cn": "现代化项目结构、标准测试和 CI、受保护的凭据以及 JSONConfig 国际化。"
       }
     },
+    "title": "ConnectLife Cloud",
     "titleLang": {
       "en": "ConnectLife Cloud",
       "de": "ConnectLife Cloud",
@@ -95,10 +109,12 @@
       "uk": "Неофіційний адаптер ConnectLife Cloud для ioBroker",
       "zh-cn": "适用于 ioBroker 的非官方 ConnectLife Cloud 适配器"
     },
+    "author": "Andreas Stürmer",
     "authors": [
       "Andreas Stürmer (Andiweli)"
     ],
     "keywords": [
+      "ioBroker",
       "connectlife",
       "hisense",
       "gorenje",
