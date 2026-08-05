@@ -8,11 +8,13 @@
 
 > [!NOTE]
 > Experimental, unofficial ioBroker adapter for the ConnectLife Cloud. It has been tested with Hisense air conditioners. Manufacturer information is available on the [Hisense website](https://global.hisense.com/).
-> Accounts created exclusively through Google, Apple or Microsoft sign-in are not supported. The adapter requires a ConnectLife email address and password.
+> Accounts created exclusively through Google, Apple or Microsoft sign-in are not currently supported. The adapter requires a ConnectLife email address and password.
 
 ## Features
 
 - ConnectLife login via Gigya and OAuth
+- OAuth refresh-token support to reduce full account logins
+- Rate-limit handling with exponential backoff and a visible next retry time
 - Automatic discovery of devices registered in the account
 - Periodic retrieval of `statusList`
 - Automatic creation of raw property states
@@ -57,7 +59,8 @@ connectlife.0
 ├── info
 │   ├── connection
 │   ├── lastUpdate
-│   └── lastError
+│   ├── lastError
+│   └── nextRetry
 └── devices
     └── DEVICE
         ├── info
@@ -78,6 +81,30 @@ Based in part on https://github.com/Bilan/connectlife-api-connector
 
 - Energy consumption
 - Publication in the official ioBroker adapter repository
+
+## Changelog
+
+### 0.3.0 (2026-08-05)
+
+- Updated the minimum runtime to Node.js 22 and refreshed ioBroker/release dependencies.
+- Reworked CI into sequential check, adapter-test and tag-only deploy jobs.
+- Integrated rate-limit scheduling directly into the adapter and removed the temporary wrapper entry point.
+- Replaced plain Node.js timers with adapter-managed timers.
+- Completed responsive JSONConfig sizing and translated all admin texts.
+- Added repository-checker maintenance files and settings.
+
+### 0.2.3 (2026-08-04)
+
+- Scheduled rate-limit retries without blocking adapter startup.
+- Added `info.nextRetry`.
+
+### 0.2.1 (2026-08-04)
+
+- Added OAuth refresh-token handling and exponential login backoff.
+
+### 0.2.0 (2026-08-04)
+
+- Modernized the adapter structure, protected credentials, JSONConfig i18n and standard tests.
 
 ## License
 
