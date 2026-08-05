@@ -12,6 +12,7 @@ class ConnectLifeAdapter extends utils.Adapter {
 
         this.client = null;
         this.pollTimer = null;
+        this.nextPollDelayMs = 0;
         this.refreshRunning = false;
         this.deviceIdByObjectId = new Map();
         this.delayedRefreshTimers = new Set();
@@ -29,6 +30,7 @@ class ConnectLifeAdapter extends utils.Adapter {
         await this.ensureChannel("devices", "Devices");
         await this.setStateAsync("info.connection", false, true);
         await this.setStateAsync("info.lastError", "", true);
+        await this.setStateAsync("info.nextRetry", "", true);
 
         if (!this.config.login || !this.config.password) {
             const message = "ConnectLife Cloud login and password are required.";
@@ -41,6 +43,7 @@ class ConnectLifeAdapter extends utils.Adapter {
             login: this.config.login,
             password: this.config.password,
             log: this.log,
+            scheduleTimeout: this.setTimeout.bind(this),
         });
 
         this.subscribeStates("devices.*.controls.*");
@@ -52,17 +55,21 @@ class ConnectLifeAdapter extends utils.Adapter {
         this.scheduleNextPoll();
     }
 
-    scheduleNextPoll() {
+    scheduleNextPoll(delayMs) {
         if (this.pollTimer) {
             this.clearTimeout(this.pollTimer);
         }
 
-        const seconds = Math.max(30, Number(this.config.pollInterval) || 60);
+        const configuredDelayMs = Math.max(30, Number(this.config.pollInterval) || 60) * 1000;
+        const requestedDelayMs = Number(delayMs) || Number(this.nextPollDelayMs) || configuredDelayMs;
+        const effectiveDelayMs = Math.max(1000, requestedDelayMs);
+        this.nextPollDelayMs = 0;
+
         this.pollTimer = this.setTimeout(async () => {
             this.pollTimer = null;
             await this.refreshDevices();
             this.scheduleNextPoll();
-        }, seconds * 1000);
+        }, effectiveDelayMs);
     }
 
     async refreshDevices() {
@@ -77,14 +84,23 @@ class ConnectLifeAdapter extends utils.Adapter {
                 await this.processDevice(device);
             }
 
+            this.nextPollDelayMs = 0;
             this.consecutiveRefreshErrors = 0;
             this.hadSuccessfulConnection = true;
             await this.setStateAsync("info.connection", true, true);
             await this.setStateAsync("info.lastUpdate", new Date().toISOString(), true);
             await this.setStateAsync("info.lastError", "", true);
+            await this.setStateAsync("info.nextRetry", "", true);
             this.log.debug(`Updated ${devices.length} ConnectLife Cloud device(s).`);
         } catch (error) {
             const message = error instanceof Error ? error.message : String(error);
+
+            if (this.isRateLimitError(error)) {
+                await this.handleRateLimitError(error, message);
+                return;
+            }
+
+            this.nextPollDelayMs = 0;
             this.consecutiveRefreshErrors += 1;
             await this.setStateAsync("info.lastError", message, true);
 
@@ -100,6 +116,33 @@ class ConnectLifeAdapter extends utils.Adapter {
         } finally {
             this.refreshRunning = false;
         }
+    }
+
+    isRateLimitError(error) {
+        return Boolean(
+            error &&
+                typeof error === "object" &&
+                error.isRateLimit === true &&
+                Number(error.retryAfterMs) > 0,
+        );
+    }
+
+    async handleRateLimitError(error, message) {
+        const retryAfterMs = Math.max(1000, Number(error.retryAfterMs));
+        const retryAtMs = Math.max(Date.now() + 1000, Number(error.retryAt) || Date.now() + retryAfterMs);
+        const retryAt = new Date(retryAtMs).toISOString();
+
+        this.nextPollDelayMs = Math.max(1000, retryAtMs - Date.now() + 1000);
+        this.consecutiveRefreshErrors = 0;
+
+        await this.setStateAsync("info.connection", false, true);
+        await this.setStateAsync("info.lastError", message, true);
+        await this.setStateAsync("info.nextRetry", retryAt, true);
+
+        this.log.warn(
+            `ConnectLife login is temporarily rate-limited. ` +
+                `The next automatic login attempt is scheduled for ${retryAt}.`,
+        );
     }
 
     async processDevice(device) {
@@ -293,7 +336,7 @@ class ConnectLifeAdapter extends utils.Adapter {
                 id: "verticalSwing",
                 name: "Vertical swing",
                 type: "number",
-                role: "level",
+                role: "level.mode.swing",
                 toState: Number,
             },
         };
