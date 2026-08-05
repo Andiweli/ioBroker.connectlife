@@ -191,9 +191,7 @@ class ConnectLifeAdapter extends utils.Adapter {
             "string",
             "info.name",
         );
-        await this.setReadOnlyState(
-            `devices.${objectId}.info.roomName`, roomName, "Cloud room name", "string", "text",
-        );
+        await this.setReadOnlyState(`devices.${objectId}.info.roomName`, roomName, "Cloud room name", "string", "text");
         await this.setReadOnlyState(
             `devices.${objectId}.info.deviceTypeName`,
             deviceTypeName,
