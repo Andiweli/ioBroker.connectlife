@@ -1,8 +1,8 @@
 {
-  "loginLabel": "ConnectLife Cloud login (email)",
-  "passwordLabel": "ConnectLife Cloud password",
-  "pollIntervalLabel": "Polling interval in seconds",
-  "createRawStatesLabel": "Create raw property states",
-  "allowRawWritesLabel": "Allow writes to unknown raw properties (advanced)",
-  "footerText": "When enabled, states below devices.&lt;device&gt;.raw can be written directly to the ConnectLife API.<br>This is intended for testing functions that do not yet have a dedicated control state. Invalid values may be rejected by the device or cloud.<br>This adapter uses an unofficial, reverse-engineered cloud API. ConnectLife may change it without notice."
+  "loginLabel": "Inicio de sesión de ConnectLife Cloud (correo electrónico)",
+  "passwordLabel": "Contraseña de ConnectLife Cloud",
+  "pollIntervalLabel": "Intervalo de consulta en segundos",
+  "createRawStatesLabel": "Crear estados de propiedades sin procesar",
+  "allowRawWritesLabel": "Permitir escritura en propiedades sin procesar desconocidas (avanzado)",
+  "footerText": "Si se activa, los estados de devices.&lt;dispositivo&gt;.raw se pueden escribir directamente en la API de ConnectLife.<br>Esta opción está destinada a probar funciones que aún no tienen un estado de control propio. El dispositivo o la nube pueden rechazar valores no válidos.<br>Este adaptador utiliza una API de nube no oficial obtenida mediante ingeniería inversa. ConnectLife puede modificarla sin previo aviso."
 }
