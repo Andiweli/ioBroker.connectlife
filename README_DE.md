@@ -27,6 +27,8 @@
 - optionales Schreiben unbekannter Roh-Properties
 - Verbindungs- und Fehlerstatus unter `info`
 - automatische einmalige Wiederholung bei einem ConnectLife-Fehler `randStr check fail`
+- automatische einmalige schnelle Wiederholung nach einem vorübergehenden Fehler beim ersten Cloud-Abruf oder bei der Gerätesynchronisierung
+- getrennte Bewertung von Cloud-Verbindung und Fehlern einzelner Gerätesynchronisierungen
 - stabilere Verbindungsanzeige bei einzelnen vorübergehenden Cloud-Fehlern
 
 ## Installation über ioBroker
@@ -87,11 +89,14 @@ Basiert auf Teilen von https://github.com/Bilan/connectlife-api-connector
 
 ## Changelog
 
-### 0.3.1 (2026-08-05)
+### 0.3.1 (2026-08-06)
 
 - Alle gemeldeten ESLint-/Prettier-Formatierungsfehler behoben, damit Paket- und Integrationstests ausgeführt werden können.
 - Prüf- und Deploy-Jobs auf Node.js 24 ausgerichtet; Node.js 22 bleibt als Laufzeit und Testversion unterstützt.
-- Erforderliche Repository-Metadaten in `io-package.json` vervollständigt.
+- Metadaten in `io-package.json` an das aktuelle Schema angepasst und Axios aktualisiert.
+- Startverhalten nach Adapter-Updates verbessert: Die Cloud-Verbindung wird unmittelbar nach einem erfolgreichen Abruf der Geräteliste als aktiv markiert.
+- Fehler einzelner Gerätesynchronisierungen vom Cloud-Verbindungsstatus getrennt und eine einmalige schnelle automatische Erstwiederholung ergänzt.
+- Eindeutige Startprotokolle und eine übergeordnete Fehlerbehandlung für die Initialisierung ergänzt.
 - Laufzeitvoraussetzungen und das Verhalten bei ConnectLife-Login-Ratenlimits dokumentiert.
 
 ### 0.3.0 (2026-08-05)
