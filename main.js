@@ -121,9 +121,7 @@ class ConnectLifeAdapter extends utils.Adapter {
             await this.setStateAsync("info.nextRetry", "", true);
 
             if (firstSuccessfulConnection) {
-                this.log.info(
-                    `Connected to ConnectLife Cloud. Synchronizing ${devices.length} device(s)...`,
-                );
+                this.log.info(`Connected to ConnectLife Cloud. Synchronizing ${devices.length} device(s)...`);
             }
 
             const synchronizationErrors = [];
