@@ -64,7 +64,7 @@
         "fr": "Les jetons d’actualisation OAuth et le délai exponentiel réduisent les connexions complètes et gèrent les limites temporaires de Gigya.",
         "it": "I token di aggiornamento OAuth e il backoff esponenziale riducono gli accessi completi e gestiscono i limiti temporanei di Gigya.",
         "es": "Los tokens de actualización OAuth y la espera exponencial reducen los inicios completos y gestionan límites temporales de Gigya.",
-        "pl": "Tokeny odświeżania OAuth i wykładnicze opóźnienie ograniczają pełne logowania i obsługują tymczasowe limity Gigya.",
+        "pl": "Tokeny odświeżania OAuth i wykładnicze opóźnienie ograniczają pełne logowania i obsługują tymczasowe limиты Gigya.",
         "uk": "OAuth-токени оновлення та експоненційна затримка скорочують повні входи й обробляють тимчасові обмеження Gigya.",
         "zh-cn": "OAuth 刷新令牌和指数退避可减少完整登录并处理临时 Gigya 速率限制。"
       },
@@ -82,7 +82,6 @@
         "zh-cn": "现代化项目结构、标准测试和 CI、受保护的凭据以及 JSONConfig 国际化。"
       }
     },
-    "title": "ConnectLife Cloud",
     "titleLang": {
       "en": "ConnectLife Cloud",
       "de": "ConnectLife Cloud",
@@ -109,12 +108,10 @@
       "uk": "Неофіційний адаптер ConnectLife Cloud для ioBroker",
       "zh-cn": "适用于 ioBroker 的非官方 ConnectLife Cloud 适配器"
     },
-    "author": "Andreas Stürmer",
     "authors": [
       "Andreas Stürmer (Andiweli)"
     ],
     "keywords": [
-      "ioBroker",
       "connectlife",
       "hisense",
       "gorenje",
