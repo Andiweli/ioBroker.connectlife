@@ -29,6 +29,8 @@
 - Optional writing of unknown raw properties
 - Connection and error states below `info`
 - Automatic one-time retry after a ConnectLife `randStr check fail` response
+- Automatic one-time fast retry after an initial transient cloud or device-synchronization error
+- Cloud connection status separated from individual device-synchronization errors
 - Stable connection indicator during isolated temporary cloud errors
 
 ## Screenshots
@@ -97,11 +99,14 @@ Based in part on https://github.com/Bilan/connectlife-api-connector
 
 ## Changelog
 
-### 0.3.1 (2026-08-05)
+### 0.3.1 (2026-08-06)
 
 - Fixed all reported ESLint/Prettier formatting errors so package and integration tests can run.
 - Aligned check and deploy jobs with Node.js 24 while retaining Node.js 22 runtime support and tests.
-- Completed required repository metadata in `io-package.json`.
+- Corrected `io-package.json` metadata for the current schema and updated Axios.
+- Improved adapter-update startup behavior by marking the cloud connection active immediately after a successful device-list request.
+- Kept individual device-synchronization errors separate from the cloud connection state and added one automatic fast initial retry.
+- Added explicit startup logging and top-level initialization error handling.
 - Documented runtime requirements and ConnectLife login-rate-limit behavior.
 
 ### 0.3.0 (2026-08-05)
