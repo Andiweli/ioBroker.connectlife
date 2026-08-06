@@ -82,7 +82,6 @@
         "zh-cn": "现代化项目结构、标准测试和 CI、受保护的凭据以及 JSONConfig 国际化。"
       }
     },
-    "title": "ConnectLife Cloud",
     "titleLang": {
       "en": "ConnectLife Cloud",
       "de": "ConnectLife Cloud",
@@ -109,12 +108,10 @@
       "uk": "Неофіційний адаптер ConnectLife Cloud для ioBroker",
       "zh-cn": "适用于 ioBroker 的非官方 ConnectLife Cloud 适配器"
     },
-    "author": "Andreas Stürmer",
     "authors": [
       "Andreas Stürmer (Andiweli)"
     ],
     "keywords": [
-      "ioBroker",
       "connectlife",
       "hisense",
       "gorenje",

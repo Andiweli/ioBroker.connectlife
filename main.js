@@ -3,6 +3,8 @@
 const utils = require("@iobroker/adapter-core");
 const { ConnectLifeClient } = require("./lib/connectlife-client-v011");
 
+const INITIAL_REFRESH_RETRY_MS = 5000;
+
 class ConnectLifeAdapter extends utils.Adapter {
     constructor(options = {}) {
         super({
@@ -18,6 +20,8 @@ class ConnectLifeAdapter extends utils.Adapter {
         this.delayedRefreshTimers = new Set();
         this.consecutiveRefreshErrors = 0;
         this.hadSuccessfulConnection = false;
+        this.initialRefreshRetryAvailable = true;
+        this.unloading = false;
 
         this.on("ready", this.onReady.bind(this));
         this.on("stateChange", this.onStateChange.bind(this));
@@ -26,36 +30,54 @@ class ConnectLifeAdapter extends utils.Adapter {
     }
 
     async onReady() {
-        await this.ensureChannel("info", "Information");
-        await this.ensureChannel("devices", "Devices");
-        await this.setStateAsync("info.connection", false, true);
-        await this.setStateAsync("info.lastError", "", true);
-        await this.setStateAsync("info.nextRetry", "", true);
+        try {
+            await this.ensureChannel("info", "Information");
+            await this.ensureChannel("devices", "Devices");
+            await this.setStateAsync("info.connection", false, true);
+            await this.setStateAsync("info.lastError", "", true);
+            await this.setStateAsync("info.nextRetry", "", true);
 
-        if (!this.config.login || !this.config.password) {
-            const message = "ConnectLife Cloud login and password are required.";
-            this.log.error(message);
-            await this.setStateAsync("info.lastError", message, true);
-            return;
+            if (!this.config.login || !this.config.password) {
+                const message = "ConnectLife Cloud login and password are required.";
+                this.log.error(message);
+                await this.setStateAsync("info.lastError", message, true);
+                return;
+            }
+
+            this.client = new ConnectLifeClient({
+                login: this.config.login,
+                password: this.config.password,
+                log: this.log,
+                scheduleTimeout: this.setTimeout.bind(this),
+            });
+
+            this.subscribeStates("devices.*.controls.*");
+            if (this.config.allowRawWrites === true) {
+                this.subscribeStates("devices.*.raw.*");
+            }
+
+            this.log.info("Connecting to ConnectLife Cloud...");
+            await this.refreshDevices();
+            this.scheduleNextPoll();
+        } catch (error) {
+            const message = error instanceof Error ? error.message : String(error);
+            this.log.error(`ConnectLife adapter initialization failed: ${message}`);
+
+            try {
+                await this.setStateAsync("info.connection", false, true);
+                await this.setStateAsync("info.lastError", message, true);
+            } catch (stateError) {
+                const stateMessage = stateError instanceof Error ? stateError.message : String(stateError);
+                this.log.error(`Could not update initialization error states: ${stateMessage}`);
+            }
         }
-
-        this.client = new ConnectLifeClient({
-            login: this.config.login,
-            password: this.config.password,
-            log: this.log,
-            scheduleTimeout: this.setTimeout.bind(this),
-        });
-
-        this.subscribeStates("devices.*.controls.*");
-        if (this.config.allowRawWrites === true) {
-            this.subscribeStates("devices.*.raw.*");
-        }
-
-        await this.refreshDevices();
-        this.scheduleNextPoll();
     }
 
     scheduleNextPoll(delayMs) {
+        if (this.unloading || !this.client) {
+            return;
+        }
+
         if (this.pollTimer) {
             this.clearTimeout(this.pollTimer);
         }
@@ -67,43 +89,96 @@ class ConnectLifeAdapter extends utils.Adapter {
 
         this.pollTimer = this.setTimeout(async () => {
             this.pollTimer = null;
-            await this.refreshDevices();
-            this.scheduleNextPoll();
+            try {
+                await this.refreshDevices();
+            } catch (error) {
+                const message = error instanceof Error ? error.message : String(error);
+                this.log.error(`Unexpected scheduled refresh failure: ${message}`);
+            } finally {
+                this.scheduleNextPoll();
+            }
         }, effectiveDelayMs);
     }
 
     async refreshDevices() {
-        if (this.refreshRunning || !this.client) {
+        if (this.refreshRunning || !this.client || this.unloading) {
             return;
         }
 
         this.refreshRunning = true;
         try {
             const devices = await this.client.getDevices();
-            for (const device of devices) {
-                await this.processDevice(device);
-            }
+            const firstSuccessfulConnection = !this.hadSuccessfulConnection;
+            const updatedAt = new Date().toISOString();
 
             this.nextPollDelayMs = 0;
             this.consecutiveRefreshErrors = 0;
             this.hadSuccessfulConnection = true;
+
             await this.setStateAsync("info.connection", true, true);
-            await this.setStateAsync("info.lastUpdate", new Date().toISOString(), true);
+            await this.setStateAsync("info.lastUpdate", updatedAt, true);
             await this.setStateAsync("info.lastError", "", true);
             await this.setStateAsync("info.nextRetry", "", true);
+
+            if (firstSuccessfulConnection) {
+                this.log.info(`Connected to ConnectLife Cloud. Synchronizing ${devices.length} device(s)...`);
+            }
+
+            const synchronizationErrors = [];
+            for (const device of devices) {
+                try {
+                    await this.processDevice(device);
+                } catch (error) {
+                    const message = error instanceof Error ? error.message : String(error);
+                    const deviceId = String(device?.puid || device?.deviceId || "unknown device");
+                    synchronizationErrors.push(`${deviceId}: ${message}`);
+                    this.log.error(`Could not synchronize ConnectLife device ${deviceId}: ${message}`);
+                }
+            }
+
+            if (synchronizationErrors.length > 0) {
+                const details = synchronizationErrors.join("; ").slice(0, 1500);
+                const message =
+                    `ConnectLife Cloud is connected, but ${synchronizationErrors.length} of ` +
+                    `${devices.length} device(s) could not be synchronized: ${details}`;
+
+                if (this.initialRefreshRetryAvailable) {
+                    this.initialRefreshRetryAvailable = false;
+                    this.nextPollDelayMs = INITIAL_REFRESH_RETRY_MS;
+                    this.log.warn(`${message} Retrying device synchronization in 5 seconds.`);
+                } else {
+                    this.log.warn(message);
+                }
+
+                await this.setStateAsync("info.lastError", message, true);
+                return;
+            }
+
+            this.initialRefreshRetryAvailable = false;
             this.log.debug(`Updated ${devices.length} ConnectLife Cloud device(s).`);
         } catch (error) {
             const message = error instanceof Error ? error.message : String(error);
 
             if (this.isRateLimitError(error)) {
+                this.initialRefreshRetryAvailable = false;
                 await this.handleRateLimitError(error, message);
                 return;
             }
 
-            this.nextPollDelayMs = 0;
             this.consecutiveRefreshErrors += 1;
             await this.setStateAsync("info.lastError", message, true);
 
+            if (!this.hadSuccessfulConnection && this.initialRefreshRetryAvailable) {
+                this.initialRefreshRetryAvailable = false;
+                this.nextPollDelayMs = INITIAL_REFRESH_RETRY_MS;
+                await this.setStateAsync("info.connection", false, true);
+                this.log.warn(
+                    `Initial ConnectLife Cloud refresh failed: ${message}. Retrying automatically in 5 seconds.`,
+                );
+                return;
+            }
+
+            this.nextPollDelayMs = 0;
             if (this.hadSuccessfulConnection && this.consecutiveRefreshErrors < 3) {
                 this.log.warn(
                     `Temporary ConnectLife Cloud polling error ` + `(${this.consecutiveRefreshErrors}/3): ${message}`,
@@ -411,9 +486,18 @@ class ConnectLifeAdapter extends utils.Adapter {
     }
 
     scheduleDelayedRefresh() {
+        if (this.unloading) {
+            return;
+        }
+
         const timer = this.setTimeout(async () => {
             this.delayedRefreshTimers.delete(timer);
-            await this.refreshDevices();
+            try {
+                await this.refreshDevices();
+            } catch (error) {
+                const message = error instanceof Error ? error.message : String(error);
+                this.log.error(`Unexpected delayed refresh failure: ${message}`);
+            }
         }, 1500);
         this.delayedRefreshTimers.add(timer);
     }
@@ -559,6 +643,8 @@ class ConnectLifeAdapter extends utils.Adapter {
     }
 
     onUnload(callback) {
+        this.unloading = true;
+
         try {
             if (this.pollTimer) {
                 this.clearTimeout(this.pollTimer);
