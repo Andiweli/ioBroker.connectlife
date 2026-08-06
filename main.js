@@ -173,8 +173,7 @@ class ConnectLifeAdapter extends utils.Adapter {
                 this.nextPollDelayMs = INITIAL_REFRESH_RETRY_MS;
                 await this.setStateAsync("info.connection", false, true);
                 this.log.warn(
-                    `Initial ConnectLife Cloud refresh failed: ${message}. ` +
-                        `Retrying automatically in 5 seconds.`,
+                    `Initial ConnectLife Cloud refresh failed: ${message}. Retrying automatically in 5 seconds.`,
                 );
                 return;
             }
