@@ -3,6 +3,9 @@
 # ConnectLife Cloud for ioBroker
 
 ![Version](https://img.shields.io/github/package-json/v/Andiweli/ioBroker.connectlife?label=version)
+![AI Assisted Coding](https://img.shields.io/badge/AI-Assisted%20Coding-white)
+[![Support via PayPal](https://img.shields.io/badge/Support%20via-PayPal-0070BA?logo=paypal\&logoColor=white)](https://paypal.me/andiweli)
+
 
 [Deutsche Dokumentation](README_DE.md)
 
@@ -130,6 +133,16 @@ Based in part on https://github.com/Bilan/connectlife-api-connector
 ### 0.2.0 (2026-08-04)
 
 - Modernized the adapter structure, protected credentials, JSONConfig i18n and standard tests.
+
+## ❤️ Support
+
+If you enjoy this project and would like to support my work, you can make a small contribution via PayPal.
+
+Your support helps me spend more time maintaining existing projects, fixing bugs, improving compatibility, and working on new features.
+
+[![Support via PayPal](https://img.shields.io/badge/Support%20via-PayPal-0070BA?logo=paypal\&logoColor=white)](https://paypal.me/andiweli)
+
+Thank you for your support!
 
 ## License
 
