@@ -10,7 +10,7 @@
 [Deutsche Dokumentation](README_DE.md)
 
 > [!NOTE]
-> Experimental, unofficial ioBroker adapter for the ConnectLife Cloud. It has been tested with Hisense air conditioners. Manufacturer information is available on the [Hisense website](https://global.hisense.com/).
+> Experimental, unofficial ioBroker adapter for the ConnectLife Cloud. It has been tested with Hisense air conditioners and a Hisense refrigerator. Manufacturer information is available on the [Hisense website](https://global.hisense.com/).
 > Accounts created exclusively through Google, Apple or Microsoft sign-in are not currently supported. The adapter requires a ConnectLife email address and password.
 
 ## Requirements
@@ -29,6 +29,7 @@
 - Periodic retrieval of `statusList`
 - Automatic creation of raw property states
 - Air-conditioner control for power, target temperature, operating mode, fan speed, silent, turbo, eco, horizontal swing and vertical swing
+- Refrigerator control (device type `026`) for fridge, freezer and variable-zone target temperatures, super cool, super freeze, eco and holiday mode, plus read-only compartment and ambient temperatures, ambient humidity and door/over-temperature alarms below `status`. States are only created for features the appliance reports, and temperature limits are taken from the appliance
 - Optional writing of unknown raw properties
 - Connection and error states below `info`
 - Automatic one-time retry after a ConnectLife `randStr check fail` response
@@ -101,6 +102,11 @@ Based in part on https://github.com/Bilan/connectlife-api-connector
 - Publication in the official ioBroker adapter repository
 
 ## Changelog
+
+### **WORK IN PROGRESS**
+
+- Fixed ConnectLife logins failing with `403048 Api rate limit exceeded` by no longer sending a hard-coded, shared Gigya `gmid`.
+- Added refrigerator support (device type `026`) with friendly control and status states. Air-conditioner states are unchanged.
 
 ### 0.3.1 (2026-08-06)
 

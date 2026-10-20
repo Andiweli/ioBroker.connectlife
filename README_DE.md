@@ -5,7 +5,7 @@
 [English documentation](README.md)
 
 > [!NOTE]
-> Experimenteller, inoffizieller ioBroker-Adapter für die ConnectLife-Cloud. Getestet wurde er mit Hisense-Klimageräten.
+> Experimenteller, inoffizieller ioBroker-Adapter für die ConnectLife-Cloud. Getestet wurde er mit Hisense-Klimageräten und einem Hisense-Kühlschrank.
 > Konten, die ausschließlich über Google, Apple oder Microsoft angelegt wurden, werden derzeit nicht unterstützt. Der Adapter benötigt eine ConnectLife-E-Mail-Adresse und ein ConnectLife-Passwort.
 
 ## Voraussetzungen
@@ -24,6 +24,7 @@
 - regelmäßiger Abruf von `statusList`
 - automatische Anlage von Rohdatenpunkten
 - Klimaanlagen-Steuerung für Ein/Aus, Solltemperatur, Betriebsart, Lüfterstufe, Silent, Turbo, Eco sowie horizontale und vertikale Luftführung
+- Kühlschrank-Steuerung (Gerätetyp `026`) für die Solltemperaturen von Kühlteil, Gefrierteil und variabler Zone, Super-Kühlen, Super-Gefrieren, Eco und Urlaubsmodus sowie schreibgeschützte Fach- und Umgebungstemperaturen, Umgebungsfeuchte und Tür-/Übertemperaturalarme unter `status`. Datenpunkte werden nur für Funktionen angelegt, die das Gerät meldet; die Temperaturgrenzen stammen vom Gerät
 - optionales Schreiben unbekannter Roh-Properties
 - Verbindungs- und Fehlerstatus unter `info`
 - automatische einmalige Wiederholung bei einem ConnectLife-Fehler `randStr check fail`
@@ -88,6 +89,11 @@ Basiert auf Teilen von https://github.com/Bilan/connectlife-api-connector
 - Veröffentlichung im offiziellen ioBroker-Adapter-Repository
 
 ## Changelog
+
+### **WORK IN PROGRESS**
+
+- Behoben: ConnectLife-Anmeldungen scheiterten mit `403048 Api rate limit exceeded`, weil eine fest codierte, von allen Installationen geteilte Gigya-`gmid` gesendet wurde. Diese wird nicht mehr gesendet.
+- Kühlschrank-Unterstützung (Gerätetyp `026`) mit eigenen Steuer- und Status-Datenpunkten hinzugefügt. Die Klimaanlagen-Datenpunkte bleiben unverändert.
 
 ### 0.3.1 (2026-08-06)
 

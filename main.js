@@ -2,6 +2,7 @@
 
 const utils = require("@iobroker/adapter-core");
 const { ConnectLifeClient } = require("./lib/connectlife-client-v011");
+const { getFriendlyStates } = require("./lib/device-definitions");
 
 const INITIAL_REFRESH_RETRY_MS = 5000;
 
@@ -291,7 +292,7 @@ class ConnectLifeAdapter extends utils.Adapter {
 
         const status = device.statusList && typeof device.statusList === "object" ? device.statusList : {};
 
-        await this.createFriendlyClimateStates(objectId, status);
+        await this.createFriendlyStates(objectId, device.deviceTypeCode, status);
 
         if (this.config.createRawStates !== false) {
             for (const [property, value] of Object.entries(status)) {
@@ -308,104 +309,10 @@ class ConnectLifeAdapter extends utils.Adapter {
         );
     }
 
-    async createFriendlyClimateStates(objectId, status) {
-        const definitions = {
-            t_power: {
-                id: "power",
-                name: "Power",
-                type: "boolean",
-                role: "switch.power",
-                toState: value => Number(value) !== 0,
-            },
-            t_temp: {
-                id: "targetTemperature",
-                name: "Target temperature",
-                type: "number",
-                role: "level.temperature",
-                unit: "°C",
-                min: 10,
-                max: 35,
-                toState: Number,
-            },
-            t_work_mode: {
-                id: "mode",
-                name: "Operating mode",
-                type: "number",
-                role: "level.mode.airconditioner",
-                states: {
-                    0: "fan",
-                    1: "heat",
-                    2: "cool",
-                    3: "dry",
-                    4: "auto",
-                },
-                toState: Number,
-            },
-            t_fan_speed: {
-                id: "fanSpeed",
-                name: "Fan speed",
-                type: "number",
-                role: "level.mode.fan",
-                states: {
-                    0: "auto",
-                    5: "super low",
-                    6: "low",
-                    7: "medium",
-                    8: "high",
-                    9: "super high",
-                },
-                toState: Number,
-            },
-            t_fan_mute: {
-                id: "silent",
-                name: "Silent mode",
-                type: "boolean",
-                role: "switch.mode.silent",
-                toState: value => Number(value) !== 0,
-            },
-            t_super: {
-                id: "turbo",
-                name: "Turbo mode",
-                type: "boolean",
-                role: "switch.mode.boost",
-                toState: value => Number(value) !== 0,
-            },
-            t_eco: {
-                id: "eco",
-                name: "Eco mode",
-                type: "boolean",
-                role: "switch.mode.eco",
-                toState: value => Number(value) !== 0,
-            },
-            t_swing_direction: {
-                id: "horizontalSwing",
-                name: "Horizontal swing",
-                type: "number",
-                role: "level.mode.swing",
-                states: {
-                    0: "straight",
-                    1: "right",
-                    2: "both sides",
-                    3: "swing",
-                    4: "left",
-                },
-                toState: Number,
-            },
-            t_swing_angle: {
-                id: "verticalSwing",
-                name: "Vertical swing",
-                type: "number",
-                role: "level.mode.swing",
-                toState: Number,
-            },
-        };
-
-        for (const [apiProperty, definition] of Object.entries(definitions)) {
-            if (!(apiProperty in status)) {
-                continue;
-            }
-
-            const stateId = `devices.${objectId}.controls.${definition.id}`;
+    async createFriendlyStates(objectId, deviceTypeCode, status) {
+        for (const { apiProperty, definition, min, max, value } of getFriendlyStates(deviceTypeCode, status)) {
+            const writable = definition.writable !== false;
+            const stateId = `devices.${objectId}.${writable ? "controls" : "status"}.${definition.id}`;
             await this.extendObjectAsync(stateId, {
                 type: "state",
                 common: {
@@ -413,18 +320,19 @@ class ConnectLifeAdapter extends utils.Adapter {
                     type: definition.type,
                     role: definition.role,
                     read: true,
-                    write: true,
+                    write: writable,
                     ...(definition.unit ? { unit: definition.unit } : {}),
-                    ...(definition.min !== undefined ? { min: definition.min } : {}),
-                    ...(definition.max !== undefined ? { max: definition.max } : {}),
+                    ...(min !== undefined ? { min } : {}),
+                    ...(max !== undefined ? { max } : {}),
                     ...(definition.states ? { states: definition.states } : {}),
                 },
                 native: {
                     apiProperty,
+                    ...(definition.writeProperty ? { writeProperty: definition.writeProperty } : {}),
                     deviceObjectId: objectId,
                 },
             });
-            await this.setStateAsync(stateId, definition.toState(status[apiProperty]), true);
+            await this.setStateAsync(stateId, value, true);
         }
     }
 
@@ -459,7 +367,7 @@ class ConnectLifeAdapter extends utils.Adapter {
         try {
             const relativeId = id.slice(this.namespace.length + 1);
             const object = await this.getObjectAsync(relativeId);
-            const apiProperty = object?.native?.apiProperty;
+            const apiProperty = object?.native?.writeProperty || object?.native?.apiProperty;
             const deviceObjectId = object?.native?.deviceObjectId;
 
             if (!apiProperty || !deviceObjectId) {
