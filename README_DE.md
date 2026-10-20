@@ -89,6 +89,10 @@ Basiert auf Teilen von https://github.com/Bilan/connectlife-api-connector
 
 ## Changelog
 
+### **WORK IN PROGRESS**
+
+- Behoben: ConnectLife-Anmeldungen scheiterten mit `403048 Api rate limit exceeded`, weil eine fest codierte, von allen Installationen geteilte Gigya-`gmid` gesendet wurde. Diese wird nicht mehr gesendet.
+
 ### 0.3.1 (2026-08-06)
 
 - Alle gemeldeten ESLint-/Prettier-Formatierungsfehler behoben, damit Paket- und Integrationstests ausgeführt werden können.

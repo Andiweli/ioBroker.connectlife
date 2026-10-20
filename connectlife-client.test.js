@@ -104,6 +104,32 @@ describe("ConnectLifeClient request metadata", () => {
         );
     });
 
+    it("does not send a shared gmid to Gigya", async () => {
+        const client = createClient();
+        const responses = {
+            "accounts.login": { UID: "uid", sessionInfo: { cookieValue: "cookie" } },
+            "accounts.getJWT": { id_token: "jwt" },
+            "oauth/authorize": { code: "code" },
+            "oauth/token": { access_token: "access", expires_in: 3600 },
+        };
+        const gigyaBodies = [];
+        client.http = {
+            async post(url, body) {
+                if (url.includes("gigya.com")) {
+                    gigyaBodies.push(new URLSearchParams(body));
+                }
+                const key = Object.keys(responses).find(path => url.endsWith(path));
+                return { data: responses[key] };
+            },
+        };
+
+        assert.equal(await client.ensureToken(), "access");
+        assert.equal(gigyaBodies.length, 2);
+        for (const body of gigyaBodies) {
+            assert.equal(body.has("gmid"), false);
+        }
+    });
+
     it("uses the adapter-provided timer for short retry delays", async () => {
         let scheduledDelay = 0;
         const client = createClient({
